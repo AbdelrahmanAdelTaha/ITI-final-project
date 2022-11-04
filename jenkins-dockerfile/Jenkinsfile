@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    stages {
+        
+        stage('preparation') {
+            steps {
+                git 'https://github.com/AbdelrahmanAdelTaha/pyflask-app-example'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker build . -t abdelrahmanadel97/pyflask-app:v6.0'
+            }
+        }
+        stage('artifact') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
+                    sh 'docker push abdelrahmanadel97/pyflask-app:v6.0'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f /python-app-dep.yml '
+            }
+        }
+        
+    }
+}
