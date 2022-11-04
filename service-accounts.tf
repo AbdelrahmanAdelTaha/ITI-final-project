@@ -21,7 +21,7 @@ resource "google_service_account" "nodes-service-account" {
 
 resource "google_project_iam_binding" "nodes-service-account-iam" {
   project = "abdelrahmanadel-project2"
-  role    = "roles/storage.objectViewer"
+  role    = "roles/storage.admin"
   members = [
     "serviceAccount:${google_service_account.nodes-service-account.email}",
   ]
