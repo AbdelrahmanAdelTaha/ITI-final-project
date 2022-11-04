@@ -5,7 +5,6 @@ metadata:
   labels:
     app: jenkins
   name: jenkins
-  namespace: jenkins
 spec:
   replicas: 1
   selector:

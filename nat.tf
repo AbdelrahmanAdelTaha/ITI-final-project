@@ -15,5 +15,10 @@ resource "google_compute_router_nat" "project-nat" {
     name                    = google_compute_subnetwork.management-subnet.id
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
+  subnetwork {
+    name                    = google_compute_subnetwork.restricted-subnet.id
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+  }
+
 
 }

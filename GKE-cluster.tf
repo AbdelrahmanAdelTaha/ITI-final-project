@@ -6,9 +6,7 @@ resource "google_container_cluster" "private-cluster" {
   network                  = google_compute_network.project-vpc.id
   subnetwork               = google_compute_subnetwork.restricted-subnet.id
 
-  node_locations = [
-    "us-central1-b"
-  ]
+
 
   master_authorized_networks_config {
     cidr_blocks {
@@ -30,13 +28,17 @@ resource "google_container_cluster" "private-cluster" {
 }
 
 resource "google_container_node_pool" "nodepool" {
-  name       = "nodepool"
-  cluster    = google_container_cluster.private-cluster.id
-  node_count = 3
+  name    = "nodepool"
+  cluster = google_container_cluster.private-cluster.id
+
+  node_count = 1
+
+
 
   node_config {
     preemptible  = true
     machine_type = "e2-medium"
+    image_type   = "UBUNTU_CONTAINERD"
 
     service_account = google_service_account.nodes-service-account.email
     oauth_scopes = [
